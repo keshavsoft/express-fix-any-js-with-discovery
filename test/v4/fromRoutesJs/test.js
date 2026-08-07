@@ -4,7 +4,6 @@ import { fileURLToPath } from "url";
 import index from "../../../index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const folderName = "v3";
 
 // NOTE: This test invokes the auto-discovery engine. It will list the files in __dirname, 
 // match "routes.js" to "fromRoutesJs" inside the fileNames mapping, and call the fixer.
@@ -12,7 +11,7 @@ const folderName = "v3";
 // logged due to an operator precedence bug in the upstream dependency's config verification.
 const output = index({
     inTargetPath: __dirname,
-    inValue: folderName, OutValue: folderName
+    raka: "v1", poka: "v11111"
 });
 
 console.log("aaaaaaa : ", output);
