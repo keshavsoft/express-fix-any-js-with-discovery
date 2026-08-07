@@ -6,7 +6,7 @@ const previewEl = document.getElementById('code-preview-display');
 const logEl = document.getElementById('log-display');
 
 function copyInstall() {
-    navigator.clipboard.writeText('npm install express-fix-any-js');
+    navigator.clipboard.writeText('npm install express-fix-any-js-with-discovery');
     alert('Install command copied to clipboard!');
 }
 
