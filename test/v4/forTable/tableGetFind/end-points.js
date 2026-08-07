@@ -11,6 +11,7 @@ const router = express.Router();
 
 router.get('/showAll', (req, res) => funcFromshowAll({ req, res, inTablePath: tablePath }));
 router.get('/find', (req, res) => funcFromfind({ req, res, inTablePath: tablePath }));
+router.get('/find', (req, res) => funcFromfind({ req, res, inTablePath: tablePath }));
 router.get('/find/:columnName', (req, res) => funcFromfind({ req, res, inTablePath: tablePath }));
 
 export { router };
