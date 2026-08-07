@@ -2,8 +2,6 @@ import fs from "fs";
 import path from "path";
 import { fileNamesJson as fromNpm } from "pattern-collector-base-files";
 
-// import fileNamesJson from '../fileNames.json' with {type: 'json'};
-
 const startFunc = ({ alterArray, inFileType, inTargetPath, inValue }) => {
 
     try {

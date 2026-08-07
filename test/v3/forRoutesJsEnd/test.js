@@ -4,12 +4,12 @@ import { fileURLToPath } from "url";
 import index from "../../../index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const folderName = "v3";
+const tableName = "table1";
 
 const output = index({
-    inFileType: "fromRoutesJs",
+    inFileType: "fromRoutesJsEnd",
     inTargetPath: __dirname,
-    inValue: folderName, OutValue: folderName
+    inValue: tableName, OutValue: tableName
 });
 
 console.log("aaaaaaa : ", output);

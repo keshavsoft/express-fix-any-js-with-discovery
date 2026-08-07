@@ -1,15 +1,14 @@
 import path from "path";
 import { fileURLToPath } from "url";
 
-import index from "../../../index.js";
+import index from "../../../../index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const folderName = "v3";
 
 const output = index({
-    inFileType: "fromRoutesJs",
+    inFileType: "tableGetShowAll",
     inTargetPath: __dirname,
-    inValue: folderName, OutValue: folderName
+    inValue: "showAll", OutValue: "showAll"
 });
 
 console.log("aaaaaaa : ", output);
