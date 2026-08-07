@@ -8,7 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const output = index({
     inFileType: "tableGetShowAll",
     inTargetPath: __dirname,
-    inValue: "showAll", OutValue: "showAll"
+    raka: "showAll", poka: "showAll"
 });
 
 console.log("aaaaaaa : ", output);

@@ -13,7 +13,7 @@ const folderName = "table1";
 // logged due to an operator precedence bug in the upstream dependency's config verification.
 const output = index({
     inTargetPath: __dirname,
-    inValue: folderName, OutValue: folderName
+    raka: folderName, poka: folderName
 });
 
 console.log("aaaaaaa : ", output);

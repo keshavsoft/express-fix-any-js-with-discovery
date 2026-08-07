@@ -8,7 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const output = index({
     inFileType: "tableGetFind",
     inTargetPath: __dirname,
-    inValue: "find", OutValue: "find"
+    raka: "find", poka: "find"
 });
 
 console.log("aaaaaaa : ", output);
