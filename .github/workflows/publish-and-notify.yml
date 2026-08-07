@@ -40,6 +40,6 @@ jobs:
     uses: ./.github/workflows/notify.yml
     with:
       package_name: ${{ needs.check-version.outputs.package_name }}
-      repositories: "keshavsoft/express-fix-endpoints-get-js keshavsoft/template-provider"
+      repositories: "keshavsoft/express-fix-endpoints-get-js keshavsoft/template-provider keshavsoft/template-provider-with-discovery"
     secrets:
       REPO_DISPATCH_TOKEN: ${{ secrets.REPO_DISPATCH_TOKEN }}
