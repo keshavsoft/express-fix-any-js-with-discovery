@@ -1,6 +1,6 @@
 {
   "name": "express-fix-any-js-with-discovery",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "CLI to build for appjs, the endpoints",
   "keywords": [
     "cli",

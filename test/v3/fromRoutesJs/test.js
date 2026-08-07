@@ -7,7 +7,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const folderName = "v3";
 
 const output = index({
-    inFileType: "fromRoutesJs",
     inTargetPath: __dirname,
     inValue: folderName, OutValue: folderName
 });
