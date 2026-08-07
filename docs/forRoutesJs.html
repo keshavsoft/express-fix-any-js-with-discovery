@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Express Route Generation | Version Routes</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#0b1120;
+color:#e5e7eb;
+font-family:Inter,sans-serif;
+line-height:1.8;
+}
+
+.container{
+width:95%;
+max-width:1200px;
+margin:auto;
+padding:50px 0;
+}
+
+header{
+text-align:center;
+margin-bottom:50px;
+}
+
+h1{
+font-size:46px;
+color:#38bdf8;
+margin-bottom:10px;
+}
+
+.subtitle{
+font-size:18px;
+color:#94a3b8;
+}
+
+.card{
+background:#111827;
+border:1px solid #1f2937;
+border-radius:12px;
+padding:30px;
+margin-bottom:30px;
+}
+
+h2{
+color:#38bdf8;
+margin-bottom:20px;
+}
+
+h3{
+color:#60a5fa;
+margin:20px 0 10px;
+}
+
+p{
+color:#cbd5e1;
+}
+
+ul{
+margin-left:25px;
+}
+
+li{
+margin:10px 0;
+}
+
+pre{
+background:#020617;
+color:#22c55e;
+padding:20px;
+border-radius:10px;
+overflow:auto;
+font-family:"JetBrains Mono",monospace;
+margin-top:15px;
+}
+
+.workflow{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:15px;
+font-family:"JetBrains Mono";
+font-size:18px;
+}
+
+.arrow{
+font-size:24px;
+color:#38bdf8;
+}
+
+.summary{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+}
+
+.summary-card{
+background:#1e293b;
+padding:20px;
+border-left:5px solid #38bdf8;
+border-radius:10px;
+}
+
+.summary-card h4{
+color:#38bdf8;
+margin-bottom:10px;
+}
+
+.buttons{
+text-align:center;
+margin-top:40px;
+}
+
+button{
+padding:14px 28px;
+border:none;
+border-radius:8px;
+background:#0ea5e9;
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover{
+background:#0284c7;
+}
+
+footer{
+text-align:center;
+padding:30px;
+margin-top:50px;
+color:#94a3b8;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+
+<h1>Express Route Generation Flow</h1>
+
+<p class="subtitle">
+
+Step 3 - Generate Version Routes
+
+</p>
+
+</header>
+
+<div class="card">
+
+<h2>Overview</h2>
+
+<p>
+
+This module automatically generates version-based Express routing.
+It creates router imports, registers version routes, and maintains a clean routing hierarchy for API versions.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>Step 3 - Generate Version Routes</h2>
+
+<h3>File</h3>
+
+<pre>test/v15/forRoutesJs/routes.js</pre>
+
+<h3>Purpose</h3>
+
+<ul>
+
+<li>Creates version-based routing.</li>
+
+<li>Imports version routers.</li>
+
+<li>Registers version routes.</li>
+
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>Generated Code</h2>
+
+<pre>
+import { router as routerFromv1 } from "./v1/routes.js";
+
+router.use("/v1", routerFromv1);
+</pre>
+
+<h3>Generated Structure</h3>
+
+<pre>
+/api
+   │
+   └── /v1
+</pre>
+
+</div>
+
+<div class="card">
+
+<h2>Workflow</h2>
+
+<div class="workflow">
+
+<div>Run Generator</div>
+
+<div class="arrow">↓</div>
+
+<div>Create Version Folder</div>
+
+<div class="arrow">↓</div>
+
+<div>Import Version Router</div>
+
+<div class="arrow">↓</div>
+
+<div>Register app.use()</div>
+
+<div class="arrow">↓</div>
+
+<div>Version Route Ready</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Project Structure</h2>
+
+<pre>
+app.js
+│
+├── api
+│   ├── routes.js
+│   │
+│   ├── v1
+│   │   ├── routes.js
+│   │
+└── server.js
+</pre>
+
+</div>
+
+<div class="card">
+
+<h2>Summary</h2>
+
+<div class="summary">
+
+<div class="summary-card">
+
+<h4>Step 1</h4>
+
+<p>
+
+Generate router imports and app.use() registrations.
+
+</p>
+
+</div>
+
+<div class="summary-card">
+
+<h4>Step 2</h4>
+
+<p>
+
+Generate GET, POST, PUT and DELETE endpoint methods.
+
+</p>
+
+</div>
+
+<div class="summary-card">
+
+<h4>Step 3</h4>
+
+<p>
+
+Generate version routes such as <strong>/v1</strong>.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Final Result</h2>
+
+<pre>
+app.js
+│
+└── /api
+     │
+     └── /v1
+          │
+          ├── /doctors
+          │     ├── GET
+          │     ├── POST
+          │     ├── PUT
+          │     └── DELETE
+          │
+          ├── /patients
+          │     ├── GET
+          │     ├── POST
+          │     ├── PUT
+          │     └── DELETE
+          │
+          └── ...
+</pre>
+
+<p style="margin-top:20px;">
+
+This workflow automatically generates the complete Express routing hierarchy—from the main application router to version routes, table routes, and endpoint methods—based on the configured schema.
+
+</p>
+
+</div>
+
+<div class="buttons">
+
+<button onclick="copyDoc()">
+📋 Copy Documentation
+</button>
+
+</div>
+
+</div>
+
+<textarea id="copyText" style="display:none;">
+Express Route Generation Flow
+
+STEP 3 - Generate Version Routes
+
+File:
+test/v15/forRoutesJs/routes.js
+
+Purpose:
+• Creates version-based routing.
+• Imports version routers.
+• Registers version routes.
+
+Example:
+
+import { router as routerFromv1 } from "./v1/routes.js";
+
+router.use("/v1", routerFromv1);
+
+Generated Structure:
+
+/api
+  |
+  |-- /v1
+
+Project Structure:
+
+app.js
+│
+├── api
+│   ├── routes.js
+│   ├── v1
+│   │   ├── routes.js
+└── server.js
+
+Summary
+
+Step 1
+Generate main router imports.
+
+Step 2
+Generate endpoint methods.
+
+Step 3
+Generate version routes.
+
+Final Result
+
+app.js
+│
+└── /api
+     │
+     └── /v1
+          │
+          ├── /doctors
+          ├── /patients
+          └── ...
+
+This workflow automatically generates the complete Express routing hierarchy.
+</textarea>
+
+<footer>
+
+Developed for <strong>Express-fix-any-js</strong> Documentation
+
+</footer>
+
+<script>
+
+function copyDoc(){
+
+navigator.clipboard.writeText(
+document.getElementById("copyText").value
+);
+
+alert("Documentation copied successfully.");
+
+}
+
+</script>
+
+</body>
+
+</html>

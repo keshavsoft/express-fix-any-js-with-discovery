@@ -1,0 +1,108 @@
+name: Update dependency
+
+on:
+  repository_dispatch:
+    types: [dependency-updated]
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      changed: ${{ steps.check.outputs.changed }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.REPO_DISPATCH_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+
+      - name: Save Before Version
+        id: before
+        run: |
+          BEFORE_VERSION=$(node -p "require('./package.json').version")
+          echo "version=${BEFORE_VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Show Node and NPM versions
+        run: |
+          node -v
+          npm -v
+
+      - run: npm install
+
+      - name: Update dependency
+        run: |
+          PACKAGE_NAME="${{ github.event.client_payload.package }}"
+          if [ -n "$PACKAGE_NAME" ]; then
+            echo "Updating package: $PACKAGE_NAME"
+            npm install ${PACKAGE_NAME}@latest
+          else
+            echo "No package specified, updating default dependency express-check-any-for-import..."
+            npm install express-check-any-for-import@latest
+          fi
+
+      - name: Check for updates
+        id: check
+        run: |
+          if ! git diff --quiet package.json; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Bump version if updated
+        if: steps.check.outputs.changed == 'true'
+        run: npm version patch --no-git-tag-version
+
+      - name: Commit and push changes
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git commit -m "Update express-check-any-for-import to latest and bump version"
+          git push
+
+      - name: Publish to NPM
+        if: steps.check.outputs.changed == 'true'
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Generate Summary
+        if: always()
+        run: |
+          echo "### 🔄 Dependency Update Summary" >> $GITHUB_STEP_SUMMARY
+          echo "* **Repository**: [${{ github.repository }}](https://github.com/${{ github.repository }})" >> $GITHUB_STEP_SUMMARY
+          echo "* **Status**: ${{ job.status }} ✅" >> $GITHUB_STEP_SUMMARY
+          echo "* **Changes Detected & Pushed**: \`${{ steps.check.outputs.changed || 'false' }}\`" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.check.outputs.changed }}" = "true" ]; then
+            PACKAGE_NAME=$(node -p "require('./package.json').name")
+            AFTER_VERSION=$(node -p "require('./package.json').version")
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### 🚀 NPM Publication Summary" >> $GITHUB_STEP_SUMMARY
+            echo "* **Package**: \`${PACKAGE_NAME}\`" >> $GITHUB_STEP_SUMMARY
+            echo "* **Git Repository**: [${{ github.repository }}](https://github.com/${{ github.repository }})" >> $GITHUB_STEP_SUMMARY
+            echo "* **Before Publish Version**: \`${{ steps.before.outputs.version }}\`" >> $GITHUB_STEP_SUMMARY
+            echo "* **After Publish Version**: \`${AFTER_VERSION}\`" >> $GITHUB_STEP_SUMMARY
+            echo "* **Status**: ✅ Successfully Published to NPM" >> $GITHUB_STEP_SUMMARY
+            echo "* **Registry Link**: [npm Link](https://www.npmjs.com/package/${PACKAGE_NAME})" >> $GITHUB_STEP_SUMMARY
+          fi
+
+  notify-dependents:
+    needs: update
+    if: always() && needs.update.outputs.changed == 'true' && needs.update.result == 'success'
+    uses: ./.github/workflows/notify.yml
+    with:
+      package_name: "express-fix-any-js"
+      repositories: "keshavsoft/express-fix-endpoints-get-js keshavsoft/template-provider"
+    secrets:
+      REPO_DISPATCH_TOKEN: ${{ secrets.REPO_DISPATCH_TOKEN }}
